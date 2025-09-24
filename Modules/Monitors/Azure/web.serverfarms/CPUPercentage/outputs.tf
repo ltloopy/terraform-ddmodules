@@ -1,3 +1,3 @@
 output "monitor_id" {
-  value = datadog_monitor.cpu_percentage_monitor.id
+  value = datadog_monitor.ElosityAzure_Cosmos_DB_-_Service_Availability.id
 }
