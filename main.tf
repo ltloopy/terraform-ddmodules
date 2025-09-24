@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    datadog = {
+      source = "DataDog/datadog"
+    }
+  }
+}
+
 resource "datadog_monitor" "cpu_percentage_monitor" {
   evaluation_delay           = var.evaluation_delay
   group_retention_duration  = var.group_retention_duration
