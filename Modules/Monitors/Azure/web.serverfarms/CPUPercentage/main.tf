@@ -7,23 +7,21 @@ terraform {
   }
 }
 
-resource "datadog_monitor" "cpu_percentage_monitor" {
-  evaluation_delay           = var.evaluation_delay
-  group_retention_duration  = var.group_retention_duration
-  new_group_delay           = var.new_group_delay
-  notify_audit              = var.notify_audit
-  notify_by                 = var.notify_by
-  on_missing_data           = var.on_missing_data
+resource "datadog_monitor" "ElosityAzure_Cosmos_DB_-_Service_Availability" {
+  evaluation_delay = 300
+  new_group_delay = 60
+  notify_by = ["name"]
+  on_missing_data = "default"
+  require_full_window = false
   monitor_thresholds {
-    critical           = var.critical_threshold
-    critical_recovery  = var.critical_recovery
-    warning            = var.warning_threshold
-    warning_recovery   = var.warning_recovery
+    critical = 99
   }
-  name        = var.name
-  type        = var.type
-  tags        = var.tags
-  priority    = var.priority
-  query       = var.query
-  message     = var.message
+  name = "[Elosity]Azure Cosmos DB - Service Availability"
+  type = "query alert"
+  tags = ["Org.Environment:prodeus", "Org.Environment:prodwus3", "Org.Product:Elosity", "integration:azure", "ResourceType:AzureCosmosDB", "team:elosity-production"]
+  priority = 1
+  query = <<EOT
+sum(last_1h):min:azure.cosmosdb.service_availability{subscription_name:elosity_production} by {name,dd_resource_key,resource_group,subscription_name,region} < 99
+EOT
+  message = var.message
 }
